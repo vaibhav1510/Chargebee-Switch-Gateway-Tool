@@ -1,6 +1,6 @@
 <?php
 
-require('./setup.php');
+require_once(dirname(__FILE__) . '/setup.php');
 
 $offset = "";
 

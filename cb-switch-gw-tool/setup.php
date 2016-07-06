@@ -3,8 +3,8 @@
 /**
  * Chargebee Environment Setup
  */
-require('./config.php');
-require($CLIENT_LIB_PATH);
+require_once(dirname(__FILE__) . '/config.php');
+require_once($CLIENT_LIB_PATH);
 
 //ChargeBee_Environment::$scheme = "https";
 //ChargeBee_Environment::$chargebeeDomain = "chargebee.com";

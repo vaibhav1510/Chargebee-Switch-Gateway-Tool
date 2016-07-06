@@ -1,6 +1,6 @@
 <?
 
-require('./switch_gateway_helper.php');
+require_once(dirname(__FILE__) . '/cb-switch-gw-tool/helper.php');
 
 $srcGW = "pin";
 $destGw = "stripe";
