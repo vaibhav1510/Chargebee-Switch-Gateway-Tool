@@ -2,17 +2,14 @@
 
 require_once(dirname(__FILE__) . '/setup.php');
 
-$offset = "";
-
-function retrieveCustomersWithSourceGateway($srcGw) {
+function switchGatewayBatch($srcGw, $destGw, $offset) {
     $params = array(
-        "limit" => 5,
+        "limit" => 50,
         "sortBy[asc]" => "created_at"
     );
     if (isset($offset)) {
-        array_push($params, "offset", $offset);
+        $params["offset"] = $offset;
     }
-
     $all = ChargeBee_Customer::all($params);
     $offset = $all->nextOffset();
 
@@ -27,15 +24,11 @@ function retrieveCustomersWithSourceGateway($srcGw) {
             array_push($custList, $customer->id);
         }
     }
-    return $custList;
-}
-
-function switchGatewayBatch($srcGw, $destGw) {
-    $custList = retrieveCustomersWithSourceGateway($srcGw, $destGw);
     foreach ($custList as $custId) {
         switchGwOper($custId, $destGw);
-        sleep(2);
+        sleep(5);
     }
+    return $offset;
 }
 
 function switchGwOper($custId, $destGw) {
@@ -43,16 +36,15 @@ function switchGwOper($custId, $destGw) {
         $result = ChargeBee_Card::switchGatewayForCustomer($custId, array(
                     "gateway" => $destGw));
 //        $destCard = $result->card();
-        $destPm = $result->customer()->paymentMethod();
-        performAction($result);
-        echo 'cust_id: ' . $custId . ', oper_status: SUCCESSFUL, card_gateway: ' . $destPm->gateway . ', reference_id' . $destPm->referenceId . "\n";
+//        $destPm = $result->customer()->paymentMethod();
+        performAction($custId, $result, null);
     } catch (Exception $e) {
-        echo 'cust_id: ' . $custId . ', oper_status: FAILURE' . ', error_message:' . $e->getMessage() . "\n";
+        performAction($custId, null, $e);
     }
 }
 
 function switchGatewayForCustomers($srcGw, $destGw) {
     do {
-        switchGatewayBatch($srcGw, $destGw);
+        $offset = switchGatewayBatch($srcGw, $destGw, $offset);
     } while (isset($offset));
 }
