@@ -9,7 +9,7 @@ Change the following variables [config.php](https://github.com/vaibhav1510/charg
 * CLIENT_LIB_PATH - path_to ChargeBee.php
 
 
-Specify the source and destination gateway variables [test.php](https://github.com/vaibhav1510/chargebee-switch-gateway-tool/blob/master/test.php) file. Then execute [test.php](https://github.com/vaibhav1510/chargebee-switch-gateway-tool/blob/master/test.php) file to switch the gateway from one gateway to another.
+Specify the source and destination gateway variables [SwitchGateway.php](https://github.com/vaibhav1510/chargebee-switch-gateway-tool/blob/master/SwitchGateway.php) file. Then execute [SwitchGateway.php](https://github.com/vaibhav1510/chargebee-switch-gateway-tool/blob/master/SwitchGateway.php) file to switch the gateway from one gateway to another.
 
 
 
